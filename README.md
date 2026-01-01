@@ -11,6 +11,11 @@
 
 [🔗 Kaggle Competition](https://www.kaggle.com/competitions/playground-series-s5e12) | [📝 Notebook](https://www.kaggle.com/code/rishabhkannaujiya/s5e12-xgboost-drift-correction)
 
+**🏆 Leaderboard Performance**
+- **Public Score:** 0.70487
+- **Private Score:** 0.70139
+- **Final Ranking:** 388/4206 (Top 10%)
+
 </div>
 
 ---
@@ -35,7 +40,7 @@ Predict whether a patient has been diagnosed with diabetes based on various heal
   - Quantile-based binning
 - 🎯 **Hyperparameter Optimization**: Optuna-tuned XGBoost parameters
 - 🔄 **Stratified K-Fold CV**: Robust 5-fold cross-validation strategy
-- 📈 **AUC Score**: ~0.7276 out-of-fold validation score
+- 📈 **Ensemble Methods**: Multi-model blending (XGBoost, LightGBM, CatBoost)
 
 ---
 
@@ -121,13 +126,22 @@ df["metabolic_risk_score"] = df["bmi"] * df["ldl_hdl_ratio"]
 ### 4️⃣ Training Strategy
 
 - **Stratified 5-Fold Cross-Validation**
-- **Early Stopping** (50 rounds patience)
+- **Early Stopping** (50-200 rounds patience)
 - **Parallel GPU Training** (2x NVIDIA Tesla T4)
 - **Sample Weighting** for drift correction
 
 ---
 
 ## 📊 Results
+
+### Competition Performance
+
+| Metric | Score |
+|--------|-------|
+| **Public Leaderboard** | 0.70487 |
+| **Private Leaderboard** | 0.70139 |
+| **Final Ranking** | 388/4206 |
+| **Percentile** | Top 10% |
 
 ### Cross-Validation Performance
 
@@ -137,46 +151,34 @@ df["metabolic_risk_score"] = df["bmi"] * df["ldl_hdl_ratio"]
 | **OOF CV AUC** | 0.7276 |
 | **Std Fold AUC** | 0.0008 |
 
-### Individual Fold Scores
+---
+
+## 📁 Repository Structure
 
 ```
-Fold 1: 0.7282 AUC (GPU 0)
-Fold 2: 0.7263 AUC (GPU 1)
-Fold 3: 0.7273 AUC (GPU 0)
-Fold 4: 0.7287 AUC (GPU 1)
-Fold 5: 0.7277 AUC (GPU 0)
+.
+├── README.md
+├── LICENSE
+├── s5e12-xgboost-drift-correction.ipynb         # Main solution notebook
+├── s5e12-xgb-lgbm-cat-drift-weights-auto-blend.ipynb  # Ensemble solution
+└── s5e12-xgb-lgbm-cat-drift-weights-auto-blend-Bin.ipynb  # Binning variant
 ```
 
 ---
 
-## 💡 Technical Highlights
+## 🎓 Key Learnings
 
-### 1. Parallel GPU Training
-```python
-results = Parallel(n_jobs=2, backend="threading")(
-    delayed(train_fold)(fold, tr, val, X, y, sample_weights, xgb_params)
-    for fold, (tr, val) in enumerate(skf.split(X, y))
-)
-```
-**Impact**: 2x training speedup using dual GPU architecture
+1. **Drift Detection**: Temporal drift in features significantly impacts model performance
+2. **GPU Parallelization**: Dual GPU training reduces time by 50%
+3. **Feature Engineering**: Medical domain knowledge improves model interpretability
+4. **Ensemble Methods**: Multi-model blending provides marginal improvements
+5. **Cross-Validation**: Stratified K-fold ensures robust performance estimates
 
-### 2. Drift Correction Framework
-```python
-# Sample weighting based on drift analysis
-sample_weights = calculate_drift_weights(train_df, test_df)
-```
-**Impact**: Improved model robustness to temporal distribution shifts
+---
 
-### 3. Advanced Feature Engineering
-- **Medical Ratios**: LDL/HDL, Triglycerides/HDL
-- **Pressure Metrics**: Pulse Pressure, MAP
-- **Lifestyle Interactions**: Screen Time × Physical Activity
-- **Risk Aggregations**: Metabolic Risk Score
+## 📝 License
 
-### 4. Robust Validation Strategy
-- Stratified sampling maintains target distribution
-- 5-fold CV ensures reliable performance estimates
-- Early stopping prevents overfitting
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
