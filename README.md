@@ -9,7 +9,7 @@
 
 **Advanced Machine Learning Solution for Diabetes Risk Prediction**
 
-[🔗 Kaggle Competition](https://www.kaggle.com/competitions/playground-series-s5e12) | [📝 Notebook](https://www.kaggle.com/code/rishabhkannaujiya/s5e12-xgboost-drift-correction)
+[🔗 Kaggle Competition](https://www.kaggle.com/competitions/playground-series-s5e12) | [📝 Notebook (AutoBlend)](https://www.kaggle.com/code/rishabhkannaujiya/s5e12-xgb-lgbm-cat-drift-weights-auto-blend) | [📝 Notebook (Base)](https://www.kaggle.com/code/rishabhkannaujiya/s5e12-xgboost-drift-correction)
 
 **🏆 Leaderboard Performance**
 - **Public Score:** 0.70487
